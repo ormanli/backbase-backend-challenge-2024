@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: backbase
+  threads:
+    virtual:
+      enabled: true
+  docker:
+    compose:
+      enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  cache:
+    type: caffeine
+    cache-names: omdb
+    caffeine:
+      spec: initialCapacity=10,maximumSize=1000,expireAfterAccess=1h
+omdb:
+  url: http://www.omdbapi.com
+  token: d
+
+token:
+  signing:
+    key: 8H9QJPBTLGK0V2H57M1CRH4EO9BBO7OLEPP7NXP0BA5GNT25YM

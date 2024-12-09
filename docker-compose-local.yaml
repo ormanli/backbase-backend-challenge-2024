@@ -1,0 +1,25 @@
+services:
+  mysql:
+    image: 'mysql:9'
+    environment:
+      - 'MYSQL_DATABASE=backbase'
+      - 'MYSQL_PASSWORD=backbase_pwd'
+      - 'MYSQL_ROOT_PASSWORD=root_pwd'
+      - 'MYSQL_USER=backbase'
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./src/main/resources/init.sql:/docker-entrypoint-initdb.d/init.sql
+  movieapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/backbase
+      - SPRING_DATASOURCE_USERNAME=backbase
+      - SPRING_DATASOURCE_PASSWORD=backbase_pwd
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
